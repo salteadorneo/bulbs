@@ -1,6 +1,5 @@
-import ReactDOM from 'react-dom/client'
+import { render } from 'preact'
 import App from './App.tsx'
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <App />
-)
+render(<App />, document.getElementById('app')!)
+
