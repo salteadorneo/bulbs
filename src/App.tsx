@@ -1,3 +1,4 @@
+import { useState } from 'preact/hooks'
 import { Light } from './components/Light'
 import { getNewLight } from './utils'
 import { Game } from './components/Game'
@@ -7,28 +8,47 @@ export interface Light {
   id: string
   power: boolean
   broken: boolean
-  freezed: boolean
+  freezed?: boolean
 }
 
-export default function App() {
-  const lights = [
+const LEVEL = [
+  [
+    getNewLight({}),
+    getNewLight({})
+  ],
+  [
     getNewLight({}),
     getNewLight({}),
-    getNewLight({ broken: true }),
-    getNewLight({}),
+    getNewLight({})
   ]
+]
 
-  const switches = lights.map(l => l.id)
-  do {
-    switches.sort(() => Math.random() - 0.5)
-  } while (switches.join('') === lights.map(l => l.id).join(''))
+export default function App() {
+  const [level, setLevel] = useState<Light[] | null>(null)
 
   return (
     <main>
-      <Game
-        lights={lights}
-        switches={switches}
-      />
+      {!level && (
+        <>
+          <section className="levels">
+            {LEVEL.map((level, index) => (
+              <button
+                key={index}
+                onClick={() => setLevel(level)}
+                className="level"
+              >
+                {index + 1}
+              </button>
+            ))}
+          </section>
+        </>
+      )}
+      {level && (
+        <Game
+          level={level}
+          onReset={() => setLevel(null)}
+        />
+      )}
     </main>
   )
 }

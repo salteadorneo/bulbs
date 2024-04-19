@@ -1,15 +1,24 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Light as LightType } from "../App"
 import { Light } from "./Light"
 import { Switch } from "./Switch"
 
 interface Props {
-    lights: LightType[]
-    switches: string[]
+    level: LightType[]
+    onReset: () => void
 }
 
-export function Game({ lights: init, switches }: Props) {
-    const [lights, setLights] = useState(init)
+export function Game({ level, onReset }: Props) {
+    const switches = useMemo(() => {
+        let switches: string[] = []
+        do {
+            switches = level.map(l => l.id)
+            switches.sort(() => Math.random() - 0.5)
+        } while (switches.join('') === level.map(l => l.id).join(''))
+        return switches
+    }, [level])
+
+    const [lights, setLights] = useState(level)
 
     const [checked, setChecked] = useState<string[]>([])
     const expected = switches
@@ -18,7 +27,6 @@ export function Game({ lights: init, switches }: Props) {
 
     useEffect(() => {
         if (checked.length === expected.length) {
-            console.log(checked, expected)
             const isWin = checked.join('') === expected.join('')
             if (isWin) {
                 alert('¡Has ganado!')
@@ -43,19 +51,22 @@ export function Game({ lights: init, switches }: Props) {
     return (
         <main>
             <div className={`flex ${showLights && 'hidden'}`}>
-                {switches.map((id) => (
-                    <Switch
-                        key={id}
-                        power={lights.find(l => l.id === id)?.power || false}
-                        onChange={value => {
-                            setLights(lights => lights.map(l => {
-                                if (l.id === id) {
-                                    return { ...l, power: value }
-                                }
-                                return l
-                            }))
-                        }}
-                    />
+                {switches.map((id, index) => (
+                    <>
+                        {index + 1}
+                        <Switch
+                            key={id}
+                            power={lights.find(l => l.id === id)?.power || false}
+                            onChange={value => {
+                                setLights(lights => lights.map(l => {
+                                    if (l.id === id) {
+                                        return { ...l, power: value }
+                                    }
+                                    return l
+                                }))
+                            }}
+                        />
+                    </>
                 ))}
             </div>
             <div className={`flex ${!showLights && 'hidden'}`}>
@@ -67,9 +78,16 @@ export function Game({ lights: init, switches }: Props) {
                     />
                 ))}
             </div>
-            <button onClick={handleNext}>
-                Show lights
-            </button>
+            {!showLights && (
+                <button onClick={handleNext}>
+                    Show lights
+                </button>
+            )}
+            {showLights && (
+                <button onClick={onReset}>
+                    Reset
+                </button>
+            )}
         </main>
     )
 }
