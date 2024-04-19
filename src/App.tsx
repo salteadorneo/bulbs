@@ -20,11 +20,38 @@ const LEVEL = [
     getNewLight({}),
     getNewLight({}),
     getNewLight({})
+  ],
+  [
+    getNewLight({ broken: true }),
+    getNewLight({}),
+    getNewLight({})
+  ],
+  [
+    getNewLight({}),
+    getNewLight({}),
+    getNewLight({}),
+    getNewLight({})
+  ],
+  [
+    getNewLight({}),
+    getNewLight({}),
+    getNewLight({}),
+    getNewLight({}),
+    getNewLight({})
+  ],
+  [
+    getNewLight({ broken: true }),
+    getNewLight({}),
+    getNewLight({}),
+    getNewLight({}),
+    getNewLight({})
   ]
 ]
 
 export default function App() {
   const [level, setLevel] = useState<Light[] | null>(null)
+
+  const [currentLevel, setCurrentLevel] = useState(0)
 
   return (
     <main>
@@ -36,6 +63,7 @@ export default function App() {
                 key={index}
                 onClick={() => setLevel(level)}
                 className="level"
+                disabled={index > currentLevel}
               >
                 {index + 1}
               </button>
@@ -47,6 +75,10 @@ export default function App() {
         <Game
           level={level}
           onReset={() => setLevel(null)}
+          onNext={() => {
+            setCurrentLevel(currentLevel + 1)
+            setLevel(LEVEL[currentLevel + 1])
+          }}
         />
       )}
     </main>

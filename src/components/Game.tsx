@@ -6,9 +6,10 @@ import { Switch } from "./Switch"
 interface Props {
     level: LightType[]
     onReset: () => void
+    onNext: () => void
 }
 
-export function Game({ level, onReset }: Props) {
+export function Game({ level, onReset, onNext }: Props) {
     const switches = useMemo(() => {
         let switches: string[] = []
         do {
@@ -20,18 +21,28 @@ export function Game({ level, onReset }: Props) {
 
     const [lights, setLights] = useState(level)
 
+    useEffect(() => {
+        console.log('level changed')
+        setShowLights(false)
+        setResult("")
+        setChecked([])
+        setLights(level)
+    }, [level])
+
     const [checked, setChecked] = useState<string[]>([])
     const expected = switches
 
     const [showLights, setShowLights] = useState(false)
 
+    const [result, setResult] = useState("")
+
     useEffect(() => {
         if (checked.length === expected.length) {
             const isWin = checked.join('') === expected.join('')
             if (isWin) {
-                alert('¡Has ganado!')
+                setResult('win')
             } else {
-                alert('¡Has perdido!')
+                setResult('lose')
             }
         }
     }, [checked, expected])
@@ -83,10 +94,19 @@ export function Game({ level, onReset }: Props) {
                     Show lights
                 </button>
             )}
-            {showLights && (
-                <button onClick={onReset}>
-                    Reset
-                </button>
+            {result != "" && (
+                <>
+                    {result === 'win' ? 'You win!' : 'You lose!'}
+                    <button onClick={onReset}>
+                        Reset
+                    </button>
+                    <button
+                        onClick={onNext}
+                        disabled={result !== 'win'}
+                    >
+                        &gt;&gt;
+                    </button>
+                </>
             )}
         </main>
     )
