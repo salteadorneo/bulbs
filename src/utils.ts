@@ -1,11 +1,11 @@
-import { Light } from "./App"
+import { Light } from "./types"
 
-type LightProps = {
+type Props = {
   power?: boolean
   broken?: boolean
 }
 
-export function getNewLight({ power = false, broken = false }: LightProps): Light {
+export function getNewLight({ power = false, broken = false }: Props): Light {
   return {
     id: crypto.randomUUID(),
     power,

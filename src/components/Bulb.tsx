@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
-import { Light as LightType } from "../App"
 import { IconLight, IconLightOff } from "./Icons"
+import { Light } from "../types"
 
 interface Props {
-    light: LightType
+    light: Light
     onClick: () => void
 }
 
-export function Light({ light, onClick }: Props) {
+export function Bulb({ light, onClick }: Props) {
     const [isOn, setIsOn] = useState(light.power)
     const [temperature, setTemperature] = useState(0)
 

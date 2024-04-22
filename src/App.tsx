@@ -1,16 +1,8 @@
 import { useState } from 'preact/hooks'
-import { Light } from './components/Light'
 import { Game } from './components/Game'
 import { LEVEL } from './constants'
 import { getLevel } from './services/storage'
 import './App.css'
-
-export interface Light {
-  id: string
-  power: boolean
-  broken: boolean
-  freezed?: boolean
-}
 
 export default function App() {
   const getMaxLevel = getLevel()

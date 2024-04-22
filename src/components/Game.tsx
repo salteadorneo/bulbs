@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
-import { Light } from "./Light"
+import { Bulb } from "./Bulb"
 import { Switch } from "./Switch"
 import { IconNext, IconRetry } from "./Icons"
 import { LEVEL } from "../constants"
@@ -94,7 +94,7 @@ export function Game({ currentLevel, setCurrentLevel, onClose }: Props) {
             </div>
             <div className={`flex ${!showLights && 'hidden'}`}>
                 {lights.map((light) => (
-                    <Light
+                    <Bulb
                         key={light.id}
                         light={light}
                         onClick={() => checkLight(light.id)}
