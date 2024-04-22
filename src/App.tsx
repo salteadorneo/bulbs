@@ -27,7 +27,7 @@ export default function App() {
       )}
       {currentLevel >= 0 && (
         <>
-          {currentLevel + 1}/{LEVEL.length}
+          <p className="currentLevel">{currentLevel + 1}/{LEVEL.length}</p>
           <Game
             currentLevel={currentLevel}
             setCurrentLevel={() => setCurrentLevel(currentLevel + 1)}
