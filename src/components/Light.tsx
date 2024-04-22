@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Light as LightType } from "../App"
+import { IconLight, IconLightOff } from "./Icons"
 
 interface Props {
     light: LightType
@@ -40,7 +41,7 @@ export function Light({ light, onClick }: Props) {
     return (
         <div className='light' title={light.id} onClick={onClick}>
             {light.broken && '💥'}
-            {isOn ? '💡' : '✖️'} ({temperature}°C)
+            {isOn ? <IconLight /> : <IconLightOff />} ({temperature}°C)
         </div>
     )
 }

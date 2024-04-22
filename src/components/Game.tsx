@@ -1,33 +1,39 @@
 import { useEffect, useMemo, useState } from "react"
-import { Light as LightType } from "../App"
 import { Light } from "./Light"
 import { Switch } from "./Switch"
+import { IconNext, IconRetry } from "./Icons"
+import { LEVEL } from "../constants"
+import { getLevel, saveLevel } from "../services/storage"
 
 interface Props {
-    level: LightType[]
-    onReset: () => void
-    onNext: () => void
+    currentLevel: number
+    setCurrentLevel: () => void
+    onClose: () => void
 }
 
-export function Game({ level, onReset, onNext }: Props) {
+export function Game({ currentLevel, setCurrentLevel, onClose }: Props) {
     const switches = useMemo(() => {
+        const level = LEVEL[currentLevel]
         let switches: string[] = []
         do {
             switches = level.map(l => l.id)
             switches.sort(() => Math.random() - 0.5)
         } while (switches.join('') === level.map(l => l.id).join(''))
         return switches
-    }, [level])
+    }, [currentLevel])
 
-    const [lights, setLights] = useState(level)
+    const [lights, setLights] = useState(LEVEL[currentLevel])
 
     useEffect(() => {
-        console.log('level changed')
+        init()
+    }, [currentLevel])
+
+    function init() {
         setShowLights(false)
         setResult("")
         setChecked([])
-        setLights(level)
-    }, [level])
+        setLights(LEVEL[currentLevel])
+    }
 
     const [checked, setChecked] = useState<string[]>([])
     const expected = switches
@@ -37,10 +43,16 @@ export function Game({ level, onReset, onNext }: Props) {
     const [result, setResult] = useState("")
 
     useEffect(() => {
+        if (checked.length === 0) {
+            return
+        }
         if (checked.length === expected.length) {
             const isWin = checked.join('') === expected.join('')
             if (isWin) {
                 setResult('win')
+
+                const maxLevel = getLevel()
+                saveLevel(Math.max(maxLevel, currentLevel + 1))
             } else {
                 setResult('lose')
             }
@@ -60,7 +72,7 @@ export function Game({ level, onReset, onNext }: Props) {
     }
 
     return (
-        <main>
+        <>
             <div className={`flex ${showLights && 'hidden'}`}>
                 {switches.map((id, index) => (
                     <>
@@ -97,17 +109,22 @@ export function Game({ level, onReset, onNext }: Props) {
             {result != "" && (
                 <>
                     {result === 'win' ? 'You win!' : 'You lose!'}
-                    <button onClick={onReset}>
-                        Reset
-                    </button>
-                    <button
-                        onClick={onNext}
-                        disabled={result !== 'win'}
-                    >
-                        &gt;&gt;
+                    <div>
+                        <button onClick={init}>
+                            <IconRetry />
+                        </button>
+                        <button
+                            onClick={setCurrentLevel}
+                            disabled={result !== 'win'}
+                        >
+                            <IconNext />
+                        </button>
+                    </div>
+                    <button onClick={onClose}>
+                        Back to menu
                     </button>
                 </>
             )}
-        </main>
+        </>
     )
 }

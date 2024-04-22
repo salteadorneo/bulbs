@@ -1,7 +1,8 @@
 import { useState } from 'preact/hooks'
 import { Light } from './components/Light'
-import { getNewLight } from './utils'
 import { Game } from './components/Game'
+import { LEVEL } from './constants'
+import { getLevel } from './services/storage'
 import './App.css'
 
 export interface Light {
@@ -11,75 +12,36 @@ export interface Light {
   freezed?: boolean
 }
 
-const LEVEL = [
-  [
-    getNewLight({}),
-    getNewLight({})
-  ],
-  [
-    getNewLight({}),
-    getNewLight({}),
-    getNewLight({})
-  ],
-  [
-    getNewLight({ broken: true }),
-    getNewLight({}),
-    getNewLight({})
-  ],
-  [
-    getNewLight({}),
-    getNewLight({}),
-    getNewLight({}),
-    getNewLight({})
-  ],
-  [
-    getNewLight({}),
-    getNewLight({}),
-    getNewLight({}),
-    getNewLight({}),
-    getNewLight({})
-  ],
-  [
-    getNewLight({ broken: true }),
-    getNewLight({}),
-    getNewLight({}),
-    getNewLight({}),
-    getNewLight({})
-  ]
-]
-
 export default function App() {
-  const [level, setLevel] = useState<Light[] | null>(null)
+  const getMaxLevel = getLevel()
 
-  const [currentLevel, setCurrentLevel] = useState(0)
+  const [currentLevel, setCurrentLevel] = useState(-1)
 
   return (
     <main>
-      {!level && (
-        <>
-          <section className="levels">
-            {LEVEL.map((level, index) => (
-              <button
-                key={index}
-                onClick={() => setLevel(level)}
-                className="level"
-                disabled={index > currentLevel}
-              >
-                {index + 1}
-              </button>
-            ))}
-          </section>
-        </>
+      {currentLevel === -1 && (
+        <section className="levels">
+          {LEVEL.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentLevel(index)}
+              className="level"
+              disabled={index > getMaxLevel}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </section>
       )}
-      {level && (
-        <Game
-          level={level}
-          onReset={() => setLevel(null)}
-          onNext={() => {
-            setCurrentLevel(currentLevel + 1)
-            setLevel(LEVEL[currentLevel + 1])
-          }}
-        />
+      {currentLevel >= 0 && (
+        <>
+          {currentLevel + 1}/{LEVEL.length}
+          <Game
+            currentLevel={currentLevel}
+            setCurrentLevel={() => setCurrentLevel(currentLevel + 1)}
+            onClose={() => setCurrentLevel(-1)}
+          />
+        </>
       )}
     </main>
   )
