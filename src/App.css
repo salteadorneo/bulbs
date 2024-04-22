@@ -1,3 +1,24 @@
+@font-face {
+  font-family: 'Yoster Island';
+  src: url('/fonts/YosterIslandReg.woff2') format('woff2'),
+    url('/fonts/YosterIslandReg.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  font-family: 'Yoster Island', sans-serif;
+}
+
+body {
+  font-family: 'Yoster Island', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #F9FAFB
+}
+
 main {
   display: flex;
   flex-direction: column;
@@ -36,7 +57,6 @@ main {
   color: #000000;
   display: flex;
   align-items: center;
-  font-family: ui-sans-serif, system-ui, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 1.2rem;
   font-weight: 700;
   justify-content: center;
