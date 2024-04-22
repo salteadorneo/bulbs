@@ -72,6 +72,15 @@ export function Game({ currentLevel, setCurrentLevel, onClose }: Props) {
 
     return (
         <>
+            <div className={`lights ${goUp && 'resolve'}`}>
+                {lights.map((light) => (
+                    <Bulb
+                        key={light.id}
+                        light={light}
+                        onClick={() => checkLight(light.id)}
+                    />
+                ))}
+            </div>
             <div className={`switches ${goUp && 'resolve'}`}>
                 {switches.map((id, index) => (
                     <Switch
@@ -89,18 +98,9 @@ export function Game({ currentLevel, setCurrentLevel, onClose }: Props) {
                     />
                 ))}
             </div>
-            <div className={`lights ${goUp && 'resolve'}`}>
-                {lights.map((light) => (
-                    <Bulb
-                        key={light.id}
-                        light={light}
-                        onClick={() => checkLight(light.id)}
-                    />
-                ))}
-            </div>
             {!goUp && (
-                <button onClick={handleNext}>
-                    Show lights
+                <button onClick={handleNext} className="look-up">
+                    Look up!
                 </button>
             )}
 
