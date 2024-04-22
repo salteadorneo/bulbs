@@ -3,4 +3,5 @@ export interface Light {
     power: boolean
     broken: boolean
     freezed?: boolean
+    hideTemperature?: boolean
 }

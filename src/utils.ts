@@ -1,15 +1,9 @@
 import { Light } from "./types"
 
-type Props = {
-  power?: boolean
-  broken?: boolean
-}
-
-export function getNewLight({ power = false, broken = false }: Props): Light {
+export function getNewLight(props: Partial<Light>) {
   return {
     id: crypto.randomUUID(),
-    power,
-    broken,
+    ...props,
   }
 }
 

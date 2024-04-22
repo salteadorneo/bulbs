@@ -41,7 +41,8 @@ export function Bulb({ light, onClick }: Props) {
     return (
         <div className='light' title={light.id} onClick={onClick}>
             {light.broken && '💥'}
-            {isOn ? <IconLight /> : <IconLightOff />} ({temperature}°C)
+            {isOn ? <IconLight /> : <IconLightOff />}
+            {!light.hideTemperature && <>({temperature}°C)</>}
         </div>
     )
 }
