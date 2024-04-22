@@ -3,7 +3,7 @@ import { Bulb } from "./Bulb"
 import { Switch } from "./Switch"
 import { IconNext, IconRetry } from "./Icons"
 import { LEVEL } from "../constants"
-import { getLevel, saveLevel } from "../services/storage"
+import { getLevel, saveLevel } from "../utils"
 
 interface Props {
     currentLevel: number

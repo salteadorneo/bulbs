@@ -1,7 +1,7 @@
 import { useState } from 'preact/hooks'
 import { Game } from './components/Game'
 import { LEVEL } from './constants'
-import { getLevel } from './services/storage'
+import { getLevel } from './utils'
 import './App.css'
 
 export default function App() {

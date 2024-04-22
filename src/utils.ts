@@ -12,3 +12,12 @@ export function getNewLight({ power = false, broken = false }: Props): Light {
     broken,
   }
 }
+
+export const saveLevel = (level: number) => {
+  localStorage.setItem('level', level.toString());
+}
+
+export const getLevel = () => {
+  const level = localStorage.getItem('level');
+  return level ? parseInt(level, 10) : 0;
+}
