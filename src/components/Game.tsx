@@ -111,14 +111,14 @@ export function Game({ currentLevel, setCurrentLevel, onClose }: Props) {
                     {result === 'win' ? 'You win!' : 'You lose!'}
                     <div className="buttons">
                         <button onClick={init} className="button">
-                            ⟳
+                            <span>⟳</span> Retry
                         </button>
                         <button
                             onClick={setCurrentLevel}
                             className="button"
                             disabled={result !== 'win'}
                         >
-                            ↪
+                            <span>↪</span> Next
                         </button>
                     </div>
                 </div>

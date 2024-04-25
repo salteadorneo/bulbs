@@ -1,20 +1,38 @@
-import { useState } from 'preact/hooks'
+import { useEffect, useState } from 'preact/hooks'
 import { Game } from './components/Game'
 import { LEVEL } from './constants'
 import { getLevel } from './utils'
 import './App.css'
+import { Bulb } from './components/Bulb'
 
 export default function App() {
   const getMaxLevel = getLevel()
 
   const [currentLevel, setCurrentLevel] = useState(-1)
 
+  const [power, setPower] = useState(false)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setPower(true)
+    }, 1000)
+  }, [])
+
   return (
     <main>
       {currentLevel === -1 && (
         <>
-          <h1>Too high</h1>
-          <section className="levels">
+          <Bulb
+            light={{
+              id: "-1",
+              power,
+              hideTemperature: true,
+            }}
+            onClick={() => { }}
+          />
+          <h1>Bulbs</h1>
+          <p>Levels</p>
+          <section className={`levels ${power && "show"}`}>
             {LEVEL.map((_, index) => (
               <button
                 key={index}

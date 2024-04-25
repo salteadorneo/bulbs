@@ -56,6 +56,13 @@ main {
   grid-template-columns: repeat(4, 1fr);
   gap: .5rem;
   margin-top: 1rem;
+  opacity: 0;
+  z-index: 5;
+  transition: all .8s;
+
+  &.show {
+    opacity: 1;
+  }
 }
 
 .level {
@@ -124,6 +131,7 @@ main {
     0 0 250px #fff,
     0 0 300px #fff,
     0 0 350px #fff;
+  transition: box-shadow .3s;
 }
 
 .bulb::before {
@@ -324,14 +332,22 @@ main {
   border: 3px solid #000;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  min-width: 300px;
 
   .buttons {
     display: flex;
+    justify-content: center;
     margin-top: .5rem;
     gap: .5rem;
 
     .button {
-      font-size: 1.5rem;
+      display: flex;
+      gap: .3rem;
+      font-size: 1rem;
+
+      span {
+        font-size: 1.5rem;
+      }
     }
   }
 }
