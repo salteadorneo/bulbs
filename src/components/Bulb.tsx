@@ -31,7 +31,7 @@ export function Bulb({ light, index, onClick }: Props) {
                     return
                 }
                 setTemperature(t => t + 1)
-            }, 1500)
+            }, 1000)
             return () => clearInterval(interval)
         } else if (!isOn && temperature > 0) {
             const interval = setInterval(() => {
@@ -39,7 +39,7 @@ export function Bulb({ light, index, onClick }: Props) {
                     return
                 }
                 setTemperature(t => t - 1)
-            }, 1500)
+            }, 1000)
             return () => clearInterval(interval)
         }
     }, [isOn, light.freezed, temperature])

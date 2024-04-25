@@ -10,10 +10,6 @@ export const LEVEL = [
         getNewLight({ hideTemperature: true }),
     ],
     [
-        getNewLight({ hideTemperature: true }),
-        getNewLight({ hideTemperature: true, broken: true }),
-    ],
-    [
         getNewLight({}),
         getNewLight({}),
         getNewLight({})
@@ -36,6 +32,14 @@ export const LEVEL = [
         getNewLight({})
     ],
     [
+        getNewLight({ broken: true }),
+        getNewLight({}),
+        getNewLight({}),
+        getNewLight({}),
+        getNewLight({})
+    ],
+    [
+        getNewLight({ broken: true }),
         getNewLight({ broken: true }),
         getNewLight({}),
         getNewLight({}),

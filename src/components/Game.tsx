@@ -71,7 +71,7 @@ export function Game({ currentLevel, setCurrentLevel, }: Props) {
 
     return (
         <>
-            <p className="currentLevel">{currentLevel + 1}</p>
+            <p className="currentLevel">Level {currentLevel + 1}</p>
 
             <div className={`lights ${goUp && 'resolve'}`}>
                 <div>
@@ -88,9 +88,11 @@ export function Game({ currentLevel, setCurrentLevel, }: Props) {
                         />
                     ))}
                 </div>
-                <p className="question">
-                    Which bulb receives power from <strong>switch {checked.length + 1}</strong>?
-                </p>
+                {checked.length < expected.length && (
+                    <p className="question">
+                        Which bulb receives power from <strong>switch {checked.length + 1}</strong>?
+                    </p>
+                )}
             </div>
             <div className={`switches ${goUp && 'resolve'}`}>
                 <button onClick={handleNext} className="look-up">
@@ -113,6 +115,23 @@ export function Game({ currentLevel, setCurrentLevel, }: Props) {
                         />
                     ))}
                 </div>
+                <section>
+                    {currentLevel === 0 && (
+                        <p className="explain">
+                            Turn on a switch. Look above and guess the order. You only get one try.
+                        </p>
+                    )}
+                    {currentLevel === 1 && (
+                        <p className="explain">
+                            It may not be so easy now... You only get one try.
+                        </p>
+                    )}
+                    {currentLevel === 2 && (
+                        <p className="explain">
+                            Turn on a switch. The bulb will heat up. Timing is important.
+                        </p>
+                    )}
+                </section>
             </div>
 
             {result != "" && (
