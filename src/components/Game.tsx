@@ -29,7 +29,6 @@ export function Game({ currentLevel, setCurrentLevel, onClose }: Props) {
 
     function init() {
         setGoUp(false)
-        setResult("")
         setChecked([])
         setLights(LEVEL[currentLevel])
     }
@@ -43,6 +42,7 @@ export function Game({ currentLevel, setCurrentLevel, onClose }: Props) {
 
     useEffect(() => {
         if (checked.length === 0) {
+            setResult("")
             return
         }
         if (checked.length === expected.length) {
@@ -72,6 +72,8 @@ export function Game({ currentLevel, setCurrentLevel, onClose }: Props) {
 
     return (
         <>
+            <p className="currentLevel">{currentLevel + 1}</p>
+
             <div className={`lights ${goUp && 'resolve'}`}>
                 {lights.map((light) => (
                     <Bulb
@@ -82,47 +84,49 @@ export function Game({ currentLevel, setCurrentLevel, onClose }: Props) {
                 ))}
             </div>
             <div className={`switches ${goUp && 'resolve'}`}>
-                {switches.map((id, index) => (
-                    <Switch
-                        key={id}
-                        index={index}
-                        power={lights.find(l => l.id === id)?.power || false}
-                        onChange={value => {
-                            setLights(lights => lights.map(l => {
-                                if (l.id === id) {
-                                    return { ...l, power: value }
-                                }
-                                return l
-                            }))
-                        }}
-                    />
-                ))}
-            </div>
-            {!goUp && (
                 <button onClick={handleNext} className="look-up">
-                    Look up!
+                    ↑ Look up! ↑
                 </button>
-            )}
+                <div>
+                    {switches.map((id, index) => (
+                        <Switch
+                            key={id}
+                            index={index}
+                            power={lights.find(l => l.id === id)?.power || false}
+                            onChange={value => {
+                                setLights(lights => lights.map(l => {
+                                    if (l.id === id) {
+                                        return { ...l, power: value }
+                                    }
+                                    return l
+                                }))
+                            }}
+                        />
+                    ))}
+                </div>
+            </div>
 
             {result != "" && (
                 <div className="result">
                     {result === 'win' ? 'You win!' : 'You lose!'}
-                    <div>
-                        <button onClick={init}>
+                    <div className="buttons">
+                        <button onClick={init} className="button">
                             ⟳
                         </button>
                         <button
                             onClick={setCurrentLevel}
+                            className="button"
                             disabled={result !== 'win'}
                         >
-                            &gt;&gt;
+                            ↪
                         </button>
                     </div>
-                    <button onClick={onClose}>
-                        Back to menu
-                    </button>
                 </div>
             )}
+
+            <button onClick={onClose} className="button backtomenu">
+                Back to menu
+            </button>
         </>
     )
 }

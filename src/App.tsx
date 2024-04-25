@@ -12,28 +12,28 @@ export default function App() {
   return (
     <main>
       {currentLevel === -1 && (
-        <section className="levels">
-          {LEVEL.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentLevel(index)}
-              className="level"
-              disabled={index > getMaxLevel}
-            >
-              {index + 1}
-            </button>
-          ))}
-        </section>
+        <>
+          <h1>Too high</h1>
+          <section className="levels">
+            {LEVEL.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentLevel(index)}
+                className="button level"
+                disabled={index > getMaxLevel}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </section>
+        </>
       )}
       {currentLevel >= 0 && (
-        <>
-          <p className="currentLevel">{currentLevel + 1}/{LEVEL.length}</p>
-          <Game
-            currentLevel={currentLevel}
-            setCurrentLevel={() => setCurrentLevel(currentLevel + 1)}
-            onClose={() => setCurrentLevel(-1)}
-          />
-        </>
+        <Game
+          currentLevel={currentLevel}
+          setCurrentLevel={() => setCurrentLevel(currentLevel + 1)}
+          onClose={() => setCurrentLevel(-1)}
+        />
       )}
     </main>
   )
