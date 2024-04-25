@@ -15,7 +15,7 @@ export default function App() {
   useEffect(() => {
     setTimeout(() => {
       setPower(true)
-    }, 1000)
+    }, 600)
   }, [])
 
   return (
@@ -49,8 +49,7 @@ export default function App() {
       {currentLevel >= 0 && (
         <Game
           currentLevel={currentLevel}
-          setCurrentLevel={() => setCurrentLevel(currentLevel + 1)}
-          onClose={() => setCurrentLevel(-1)}
+          setCurrentLevel={setCurrentLevel}
         />
       )}
     </main>

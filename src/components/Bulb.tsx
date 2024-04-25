@@ -3,12 +3,19 @@ import { Light } from "../types"
 
 interface Props {
     light: Light
+    index?: number
     onClick: () => void
 }
 
-export function Bulb({ light, onClick }: Props) {
+export function Bulb({ light, index, onClick }: Props) {
     const [isOn, setIsOn] = useState(light.power)
-    const [temperature, setTemperature] = useState(0)
+    const [temperature, setTemperature] = useState(light.temperature || 0)
+
+    useEffect(() => {
+        if (index === 0) {
+            setTemperature(0)
+        }
+    }, [index])
 
     useEffect(() => {
         if (light.broken) {
@@ -24,7 +31,7 @@ export function Bulb({ light, onClick }: Props) {
                     return
                 }
                 setTemperature(t => t + 1)
-            }, 1000)
+            }, 1500)
             return () => clearInterval(interval)
         } else if (!isOn && temperature > 0) {
             const interval = setInterval(() => {
@@ -32,7 +39,7 @@ export function Bulb({ light, onClick }: Props) {
                     return
                 }
                 setTemperature(t => t - 1)
-            }, 1000)
+            }, 1500)
             return () => clearInterval(interval)
         }
     }, [isOn, light.freezed, temperature])
@@ -40,6 +47,7 @@ export function Bulb({ light, onClick }: Props) {
     return (
         <div className="light" onClick={onClick}>
             <div className="wire"></div>
+            {index != 0 && <span className="index">{index}</span>}
             <div className={`bulb ${isOn && "on"} ${light.broken && "broken"}`}>
                 <span></span>
                 <span></span>

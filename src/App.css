@@ -98,9 +98,22 @@ main {
 }
 
 .lights {
-  display: flex;
   position: fixed;
-  top: -500px;
+  top: -550px;
+
+  .question {
+    position: absolute;
+    bottom: -100px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2rem;
+    width: 100dvw;
+    text-align: center;
+  }
+}
+
+.lights>div {
+  display: flex;
   gap: 10px;
 }
 
@@ -111,6 +124,13 @@ main {
 
 .light {
   position: relative;
+
+  .index {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 
 .bulb {
@@ -215,7 +235,7 @@ main {
 
 .light .temperature {
   position: absolute;
-  top: 50%;
+  top: 20px;
   left: 50%;
   z-index: 3;
   transform: translate(-50%, -50%);
@@ -228,7 +248,7 @@ main {
   left: calc(50% - 2px);
   bottom: 50%;
   width: 4px;
-  height: 500px;
+  height: 70dvh;
   background: #000;
   z-index: 1;
 }

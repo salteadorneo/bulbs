@@ -6,11 +6,10 @@ import { getLevel, saveLevel } from "../utils"
 
 interface Props {
     currentLevel: number
-    setCurrentLevel: () => void
-    onClose: () => void
+    setCurrentLevel: (currentLevel: number) => void
 }
 
-export function Game({ currentLevel, setCurrentLevel, onClose }: Props) {
+export function Game({ currentLevel, setCurrentLevel, }: Props) {
     const switches = useMemo(() => {
         const level = LEVEL[currentLevel]
         let switches: string[] = []
@@ -30,7 +29,7 @@ export function Game({ currentLevel, setCurrentLevel, onClose }: Props) {
     function init() {
         setGoUp(false)
         setChecked([])
-        setLights(LEVEL[currentLevel])
+        setLights(LEVEL[currentLevel].map(l => ({ ...l, power: false, freezed: false, temperature: 0 })))
     }
 
     const [checked, setChecked] = useState<string[]>([])
@@ -75,13 +74,23 @@ export function Game({ currentLevel, setCurrentLevel, onClose }: Props) {
             <p className="currentLevel">{currentLevel + 1}</p>
 
             <div className={`lights ${goUp && 'resolve'}`}>
-                {lights.map((light) => (
-                    <Bulb
-                        key={light.id}
-                        light={light}
-                        onClick={() => checkLight(light.id)}
-                    />
-                ))}
+                <div>
+                    {lights.map((light) => (
+                        <Bulb
+                            key={light.id}
+                            light={light}
+                            index={
+                                checked.indexOf(light.id) + 1
+                            }
+                            onClick={() => {
+                                checkLight(light.id)
+                            }}
+                        />
+                    ))}
+                </div>
+                <p className="question">
+                    Which bulb receives power from <strong>switch {checked.length + 1}</strong>?
+                </p>
             </div>
             <div className={`switches ${goUp && 'resolve'}`}>
                 <button onClick={handleNext} className="look-up">
@@ -114,7 +123,7 @@ export function Game({ currentLevel, setCurrentLevel, onClose }: Props) {
                             <span>⟳</span> Retry
                         </button>
                         <button
-                            onClick={setCurrentLevel}
+                            onClick={() => setCurrentLevel(currentLevel + 1)}
                             className="button"
                             disabled={result !== 'win'}
                         >
@@ -124,7 +133,7 @@ export function Game({ currentLevel, setCurrentLevel, onClose }: Props) {
                 </div>
             )}
 
-            <button onClick={onClose} className="button backtomenu">
+            <button onClick={() => setCurrentLevel(-1)} className="button backtomenu">
                 Back to menu
             </button>
         </>
