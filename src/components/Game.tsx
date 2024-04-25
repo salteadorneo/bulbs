@@ -123,12 +123,12 @@ export function Game({ currentLevel, setCurrentLevel, }: Props) {
                     )}
                     {currentLevel === 1 && (
                         <p className="explain">
-                            It may not be so easy now... You only get one try.
+                            Nothing works forever.
                         </p>
                     )}
                     {currentLevel === 2 && (
                         <p className="explain">
-                            Turn on a switch. The bulb will heat up. Timing is important.
+                            Okay, so far it was easy. The bulbs will heat up. Timing is the key.
                         </p>
                     )}
                 </section>
